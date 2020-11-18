@@ -1,9 +1,15 @@
-var express = require('express');
-var router = express.Router();
+import info from './user';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+module.exports = app => {
+  app.use('/result', info)
 
-module.exports = router;
+  app.use('*', (req, res, next) => {
+    res.json({ "code": "400", "timestamp": new Date().getTime() })
+  })
+
+  app.use((err, req, res, next) => {
+    res.status(404)
+    res.json({ "code": "404", "timestamp": new Date().getTime() })
+    console.log(err)
+  })
+};
