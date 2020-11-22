@@ -12,7 +12,7 @@ router.get('/test/', function (req, res, next) {
 router.get('/guest/:id', async (req, res) => {
   const { id } = req.params
 
-  let query = `select * from "HotelSchema".guest where id = '${id}'`
+  let query = `select first_name, last_name, phone_number, address, email, gender, grade, mileage, year, month, day from hotel.guest where id = '${id}'`
   const result = await db.dbQuery(query)
   res.json(template.jsonCreate(result))
 })
