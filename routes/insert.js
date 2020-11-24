@@ -4,8 +4,12 @@ let express = require('express');
 let router = express.Router();
 
 router.post('/guest', async (req, res) => {
-    console.log(req.params)
+    console.log(req.body)
     res.send("post")
 })
 
-module.exports = router
+router.post('/employee', async (req, res) => {
+    
+})
+
+module.exports = router;
