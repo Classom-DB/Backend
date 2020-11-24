@@ -1,9 +1,11 @@
 import info from './user';
 import login from './login';
+import insert from './insert';
 
 module.exports = app => {
   app.use('/result', info)
   app.use('/login', login)
+  app.use('/add', insert)
   
   app.use('*', (req, res, next) => {
     res.status(404)
