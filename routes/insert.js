@@ -4,7 +4,7 @@ let express = require('express');
 let router = express.Router();
 
 router.post('/guest', async (req, res) => {
-    console.log(req)
+    console.log(req.params)
     res.send("post")
 })
 
