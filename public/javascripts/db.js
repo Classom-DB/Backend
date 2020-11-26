@@ -23,10 +23,11 @@ const dbQuery = async (text, params) => {
             console.log('Query error')
         } finally {
             client.release();
-            return res['rows'][0];
+            return res['rows'];
         }
     } catch (e) {
         console.log(e.stack)
+        return null;
     }
 }
 
