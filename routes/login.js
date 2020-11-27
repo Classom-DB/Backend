@@ -19,7 +19,7 @@ router.get('/guest/:id', async (req, res) => {
 router.get('/employee/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const query = `select password from hotel.employee where id = '${id}'`
+        const query = `select password, dept_name from hotel.employee where id = '${id}'`
         const result = await db.dbQuery(query)
         if (result === undefined) throw 'null data'
         res.json(template.jsonCreate(result))
