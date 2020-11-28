@@ -41,7 +41,7 @@ router.post('/add', async (req, res) => {
     try {
         const query = `insert into hotel.parking values(default, '${data.section}', ${data.floor}, '${data.emp_id}', '${data.guest_id}')`
         const result = await db.dbQuery(query)
-        if(result === undefined) throw 'query error'
+        if(result === undefined || result === null) throw 'query error'
         res.json({"data" : "succuess", "code" : 200, "timestamp" : new Date().getDate()})
     } catch(err) {
         res.json({"code": 404, "timestamp": new Date().getDate(), "error" : err})
@@ -49,7 +49,7 @@ router.post('/add', async (req, res) => {
 })
 
 router.delete('/delete', async (req, res) => {
-    const id = req.body.id
+    const id = req.query.id
     console.log(id)
     try {
         const query = `delete from hotel.parking where id = ${id}`
