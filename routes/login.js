@@ -7,8 +7,8 @@ let router = express.Router();
 router.get('/guest', async (req, res) => {
     const id = req.query.id
     try {
-        const query = `select password from hotel.guest where id = '${id}'`
-        const result = await db.dbQuery(query)
+        const sqlStr = `select password from guest where id = '${id}'`
+        const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
@@ -19,8 +19,8 @@ router.get('/guest', async (req, res) => {
 router.get('/employee', async (req, res) => {
     const id = req.query.id
     try {
-        const query = `select password, dept_name from hotel.employee where id = '${id}'`
-        const result = await db.dbQuery(query)
+        const sqlStr = `select password, dept_name from employee where id = '${id}'`
+        const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
