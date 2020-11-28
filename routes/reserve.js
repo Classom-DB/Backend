@@ -11,7 +11,9 @@ router.get('/room/get', async (req, res) => {
         let sqlStr = `select reserved.id, guest_id, first_name, last_name, guest_number, room_num, check_in, check_out, status from reserved join guest on reserved.guest_id = guest.id`
         if (Object.keys(option).length !== 0) {
             sqlStr += ` where `
+            var num = 0
             for (let keys in option) {
+                if(++num !== 1) query += `and `
                 sqlStr += `${keys} = '${option[keys]}' `
             }
         }
