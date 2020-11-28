@@ -50,9 +50,9 @@ router.post('/add', async (req, res) => {
         let query = `select id from hotel.employee where id = '${data.id}'`
         const check = await db.dbQuery(query)
         if (check.length !== 0) throw 'id exists'
-        query = `insert into hotel.guest values('${data.id}', '${data.password}', 
-            '${data.first_name}', '${data.last_name}', '${data.phone_number}', '${data.address}', '${data.email}', ${data.salary}, '${data.position}', ${data.join_date}, 
-            ${data.gender}, ${data.position}, ${data.birth}, ${data.dept_name})`
+        query = `insert into hotel.employee values('${data.id}', '${data.password}', 
+            '${data.first_name}', '${data.last_name}', '${data.phone_number}', '${data.address}', '${data.email}', '${data.gender}', '${data.salary}', '${data.dept_name}', 
+            '${data.position}', '${data.birth}', '${data.join_date}')`
         const result = await db.dbQuery(query)
         if (result === null) throw 'query error'
         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
