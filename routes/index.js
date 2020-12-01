@@ -2,7 +2,7 @@ import login from './login';
 import guest from './guest';
 import employee from './employee';
 import reserve from './reserve';
-// import claim from './claim';
+import claim from './claim';
 // import roomservice from './roomservice';
 import parking from './parking';
 import department from './department';
@@ -16,7 +16,7 @@ module.exports = app => {
   app.use('/guest', guest)
   app.use('/employee', employee)
   app.use('/reserve', reserve)
-  // app.use('/claim', claim)
+  app.use('/claim', claim)
   // app.use('/roomservice', roomservice)
   app.use('/parking', parking)
   app.use('/department', department)
