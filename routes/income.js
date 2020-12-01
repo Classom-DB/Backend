@@ -4,7 +4,7 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
-router.get('/income/get', async (req, res) => {
+router.get('/get', async (req, res) => {
     const data = req.query
     let query = `select id, amount from income`
     try {
@@ -13,7 +13,8 @@ router.get('/income/get', async (req, res) => {
             var num = 0
             for (let keys in data) {
                 if(++num !== 1) query += `and `
-                query += `${keys} = '${data[keys]}' `
+                if(keys === 'year' || keys === 'day' || keys === 'month')query += `${keys} = ${data[keys]} `
+                else query += `${keys} = '${data[keys]}' `
             }
         }
     
