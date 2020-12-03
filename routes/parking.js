@@ -4,6 +4,19 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
+router.get('/pad/get/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const query = `select section, floor from parking where guest_id = '${id}'`
+        const result = await db.dbQuery(query)
+        if (result === undefined || result === null) throw 'null null'
+        res.json(template.jsonCreate(result))
+    } catch (err) {
+        res.json({"code": 404, "timestamp": new Date().getDate()})
+    }
+})
+
+
 router.get('/guest/get/:floor', async (req, res) => {
     const { floor } = req.params
     console.log(floor)
