@@ -14,6 +14,7 @@ import checkout from './checkout';
 import planning from './planning';
 
 
+
 module.exports = app => {
   app.use('/login', login)
   app.use('/guest', guest)
