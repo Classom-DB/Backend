@@ -29,7 +29,7 @@ router.get('/get', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     const data = req.body
-    
+    console.log(data);
     try {
         const query = `insert into income values(default, ${data.amount}, '${data.type}', ${data.year}, ${data.month}, ${data.day}, '${data.guest_id}')`
         const result = await db.dbQuery(query)
