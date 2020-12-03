@@ -46,7 +46,6 @@ router.get('/get', async (req, res) => {
 router.post('/add', async (req, res) => {
     const data = req.body;
     try {
-        console.log(data.id)
         let query = `select id, dept_name from employee where id = '${data.id}'`
         const check = await db.dbQuery(query)
         if (check.length !== 0) throw 'id exists'
@@ -100,6 +99,10 @@ router.put('/change', async (req, res) => {
         if (check.length === 0) throw 'not exists'
         if (check[0].dept_name === "info" && data.dept_name !== "info") {
             sqlStr = `delete from info where emp_id = '${query.id}'`
+            const subcheck = await db.dbQuery(sqlStr)
+            if(subcheck === null) throw 'query error'
+        }else if (check[0].dept_name !== "info" && data.dept_name === "info") {
+            sqlStr = `insert into info where emp_id = '${query.id}'`
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'query error'
         }
