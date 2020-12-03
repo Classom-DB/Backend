@@ -31,7 +31,7 @@ router.post('/add', async (req, res) => {
     const data = req.body
     
     try {
-        const check = `select year, month, day, type, guest_id from income where year = ${data.year} and month = ${data.month} and day = ${data.day} and type = ${data.type} and guest_id = ${data.guest_id}`
+        const check = `select year, month, day, type, guest_id from income where year = ${data.year} and month = ${data.month} and day = ${data.day} and type = '${data.type}' and guest_id = '${data.guest_id}'`
         const check_result = await db.dbQuery(check)
         console.log(check_result)
         if(check_result !== undefined && check_result !== null) throw 'alreay exists'

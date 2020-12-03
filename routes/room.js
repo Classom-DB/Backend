@@ -6,7 +6,7 @@ let router = express.Router();
 
 router.get('/get', async (req, res) => {
     const data = req.query
-    const query = `select room_num, type, price, floor, emp_id from room where floor = ${data.floor}`
+    const query = `select room_num, type, price, floor, emp_id from room `
     if(Object.keys(data).length !== 1) query += `and type = '${data.type}'`
     try {
         const result = await db.dbQuery(query)

@@ -5,10 +5,9 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/get', async (req, res) => {
-    const room_num = req.query.room_num
+    const floor = req.query.floor
 
-    const query = `select clean from room`
-    if(room_num !==  undefined) query += ` where room_num = '${room_num}'`
+    const query = `select clean, room from room where floor = '${floor}'`
     
     try {
         const result = await db.dbQuery(query)
