@@ -4,17 +4,15 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
-router.get('/guest/get/:floor', async (req, res) => {
-    const { floor } = req.params
+router.get('/guest/get', async (req, res) => {
+    const query = req.params
     console.log(floor)
     try {
-        const query = `select id, section, emp_id, guest_id from parking where floor = ${floor}`
-        const result = await db.dbQuery(query)
+        const sqlStr = `select count(id) from parking where floor = ${query.floor} and section = '${query.section}'`
+        const result = await db.dbQuery(sqlStr)
 
-        if (result === null) {
-            res.json({"data" : "none", "code" : 200, "timestamp" : new Date().getDate()})
-        }
-        else res.json(template.jsonCreate(result))
+        if (result === undefined || result === null) throw 'null data'
+       res.json(template.jsonCreate(result))
     } catch(err) {
         res.json({"code": 404, "timestamp": new Date().getDate()})
     }
