@@ -7,9 +7,11 @@ import claim from './claim';
 import parking from './parking';
 import department from './department';
 import income from './income';
-// import expense from './expense';
-// import clean from './clean';
-// import room from './room';
+import expense from './expense';
+import clean from './clean';
+import room from './room';
+import checkout from './checkout';
+
 
 module.exports = app => {
   app.use('/login', login)
@@ -21,9 +23,10 @@ module.exports = app => {
   app.use('/parking', parking)
   app.use('/department', department)
   app.use('/income', income)
-  // app.use('/expense', expense)
-  // app.use('/clean', clean)
-  // app.use('/room', room)
+  app.use('/expense', expense)
+  app.use('/clean', clean)
+  app.use('/room', room)
+  app.use('/checkout', checkout)
 
   
   app.use('*', (req, res, next) => {

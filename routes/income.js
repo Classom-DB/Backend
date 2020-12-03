@@ -4,7 +4,7 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
-router.get('/income/get', async (req, res) => {
+router.get('/get', async (req, res) => {
     const data = req.query
     let query = `select id, amount from income`
     try {
@@ -13,7 +13,8 @@ router.get('/income/get', async (req, res) => {
             var num = 0
             for (let keys in data) {
                 if(++num !== 1) query += `and `
-                query += `${keys} = '${data[keys]}' `
+                if(keys === 'year' || keys === 'day' || keys === 'month')query += `${keys} = ${data[keys]} `
+                else query += `${keys} = '${data[keys]}' `
             }
         }
     
@@ -32,11 +33,11 @@ router.post('/add', async (req, res) => {
     try {
         const check = `select year, month, day, type, guest_id from income where year = ${data.year} and month = ${data.month} and day = ${data.day} and type = ${data.type} and guest_id = ${data.guest_id}`
         const check_result = await db.dbQuery(check)
-        if(check_result !== null) throw 'alreay exists'
+        console.log(check_result)
+        if(check_result !== undefined && check_result !== null) throw 'alreay exists'
 
         const query = `insert into income values(default, ${data.amount}, '${data.type}', ${data.year}, ${data.month}, ${data.day}, '${data.guest_id}')`
         const result = await db.dbQuery(query)
-        console.log(result)
         if(result === undefined || result === null) throw 'query error'
         res.json({"data" : "succuess", "code" : 200, "timestamp" : new Date().getDate()})
     } catch(err) {
