@@ -71,7 +71,7 @@ router.delete('/delete', async (req, res) => {
 
         if(check.dept_name === 'info') query = `delete from info where id = '${data.id}'`
         const subresult = await db.dbQuery(query)
-        if (subresult === null || subresult === undefined) throw 'query error'
+        if (subresult === null || subresult === undefined) throw 'info error'
 
         query = `delete from employee where id = '${data.id}'`
         const result = await db.dbQuery(query)
