@@ -5,7 +5,7 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/get', async (req, res) => {
-    let query = `select id, in_time, content, first_name, last_name from planning, employee where planning.emp_id = employee.id`
+    let query = `select id, in_time, content, first_name, last_name, update_time from planning, employee where planning.emp_id = employee.id`
     if(req.query !== undefined) query += ` where id = ${req.query.id}`
     try {
         const result = await db.dbQuery(query)

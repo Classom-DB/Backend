@@ -62,4 +62,39 @@ router.post('/add', async (req, res) => {
     }
 })
 
+router.delete('/delete', async (req, res) => {
+    const data = req.query;
+    try {
+        let query = `select id from employee where id = '${data.id}'`
+        const check = await db.dbQuery(query)
+        if (check.length !== 0) throw 'id exists'
+
+        query = `delete from employee where id = '${data.id}'`
+        const result = await db.dbQuery(query)
+        if (result === null) throw 'query error'
+        res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
+    } catch (error) {
+        console.log(error)
+        res.json({"data": error, "code": 404, "timestamp": new Date().getDate()})
+    }
+})
+
+// router.put('/change', async (req, res) => {
+//     const query = req.query;
+//     const data = req.body;
+//     try {
+//         let sqlStr = `select id from employee where id = '${query.id}'`
+//         const check = await db.dbQuery(sqlStry)
+//         if (check.length === 0) throw 'not exists'
+
+//         sqlStr = `update employee `
+//         const result = await db.dbQuery(sqlStr)
+//         if (result === null) throw 'query error'
+//         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
+//     } catch (error) {
+//         console.log(error)
+//         res.json({"data": error, "code": 404, "timestamp": new Date().getDate()})
+//     }
+// })
+
 module.exports = router;
