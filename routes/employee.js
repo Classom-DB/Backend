@@ -7,7 +7,7 @@ let router = express.Router();
 router.get('/get', async (req, res) => {
     const id = req.query.id
     const dept_name = req.query.dept_name
-    let query = `select first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name`
+    let query = `select id, first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name`
 
     const isId = (id == undefined) ? false : true;
     const isDN = (dept_name == undefined) ? false : true;
