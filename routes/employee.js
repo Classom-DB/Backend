@@ -67,7 +67,7 @@ router.delete('/delete', async (req, res) => {
     try {
         let query = `select id from employee where id = '${data.id}'`
         const check = await db.dbQuery(query)
-        if (check.length !== 0) throw 'id exists'
+        if (check.length === 0) throw 'id not exists'
 
         query = `delete from employee where id = '${data.id}'`
         const result = await db.dbQuery(query)
