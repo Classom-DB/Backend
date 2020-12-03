@@ -4,10 +4,6 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
-<<<<<<< HEAD
-router.get('/guest/get', async (req, res) => {
-    const query = req.params
-=======
 router.get('/pad/get/:id', async (req, res) => {
     const { id } = req.params
     try {
@@ -21,9 +17,8 @@ router.get('/pad/get/:id', async (req, res) => {
 })
 
 
-router.get('/guest/get/:floor', async (req, res) => {
-    const { floor } = req.params
->>>>>>> 325337d7d34e87b316763242f0a5cb3140f38cbd
+router.get('/guest/get', async (req, res) => {
+    const query = req.query
     console.log(floor)
     try {
         const sqlStr = `select count(id) from parking where floor = ${query.floor} and section = '${query.section}'`
