@@ -37,7 +37,7 @@ router.get('/get', async (req, res) => {
         const result = await db.dbQuery(query)
         res.json(template.jsonCreate(result))
     } catch(err){
-        console.log(err)
+        res.status(404)
         res.json({"code": 404, "timestamp": new Date().getDate()})
     }
 })
@@ -57,7 +57,7 @@ router.post('/add', async (req, res) => {
         if (result === null) throw 'query error'
         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({"data": error, "code": 404, "timestamp": new Date().getDate()})
     }
 })
@@ -65,16 +65,20 @@ router.post('/add', async (req, res) => {
 router.delete('/delete', async (req, res) => {
     const data = req.query;
     try {
-        let query = `select id from employee where id = '${data.id}'`
+        let query = `select id, dept_name from employee where id = '${data.id}'`
         const check = await db.dbQuery(query)
         if (check.length === 0) throw 'id not exists'
 
+        if(check.dept_name === 'info') query = `delete from info where id = '${data.id}'`
+        const subresult = await db.dbQuery(query)
+        if (result === null || result === undefined) throw 'query error'
+
         query = `delete from employee where id = '${data.id}'`
         const result = await db.dbQuery(query)
-        if (result === null) throw 'query error'
+        if (result === null || result === undefined) throw 'query error'
         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({"data": error, "code": 404, "timestamp": new Date().getDate()})
     }
 })
