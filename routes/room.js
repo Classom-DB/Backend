@@ -5,7 +5,7 @@ let express = require('express');
 let router = express.Router();
 
 
-router.get('/get', async (req, res) => {
+router.get('/perroom/get', async (req, res) => {
     const data = req.query
     const query = `select guest.first_name, guest.last_name, employee.first_name, employee.last_name, guest.gender, 
     grade, mileage, year, month, day, guest.phone_number, guest.email, guest.address 
@@ -14,11 +14,24 @@ router.get('/get', async (req, res) => {
     join room on reserved.room_num = room.number
     join employee on employee.id = room.emp_id
     where reserved.guest_id = guest.id and reserved.room_num = room.number and room_num = ${data.room}`
-    console.log(query)
 
     try {
         const result = await db.dbQuery(query)
-        if (Object.keys(result) === 0 || result === null) throw 'null data'
+        if (Object.keys(result) === 0) throw 'null data'
+        if (result === null) throw 'query error'
+        res.json(template.jsonCreate(result))
+    } catch(err) {
+        res.json({"code": 404, "timestamp": new Date().getDate()})
+    }
+})
+
+router.get('/peremp/get', async (req, res) => {
+    const query = `select id, first_name, last_name, number from employee, room where employee.id = room.emp_id`
+
+    try {
+        const result = await db.dbQuery(query)
+        if (Object.keys(result) === 0) throw 'null data'
+        if (result === null) throw 'query error'
         res.json(template.jsonCreate(result))
     } catch(err) {
         res.json({"code": 404, "timestamp": new Date().getDate()})
