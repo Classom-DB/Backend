@@ -45,11 +45,13 @@ router.delete('/room/delete', async (req, res) => {
 })
 
 router.get('/restaurant/get', async (req, res) => {
-    const id = req.query.id
+    const query = req.query
     try {
-        let sqlStr = `select id, type, customer_num, year, month, day, time from restaurantreserved where guest_id = '${id}`
+        let sqlStr = `select rr.id, type, customer_num, rr.year, rr.month, rr.day, time, first_name, last_name from restaurantreserved as rr, guest where rr.guest_id = guest.id`
+        console.log(sqlStr)
         const result = await db.dbQuery(sqlStr)
-        if (result === null) throw 'query error'
+        
+        if (result === null || result === undefined) throw 'query error'
         res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
         console.log(error)
