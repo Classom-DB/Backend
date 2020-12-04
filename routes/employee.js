@@ -1,7 +1,7 @@
 import * as db from '../public/javascripts/db';
 import * as template from '../public/javascripts/template';
 
-let express = require('express');
+let express = require('express'); 
 let router = express.Router();
 
 router.get('/get', async (req, res) => {
@@ -43,12 +43,12 @@ router.get('/get', async (req, res) => {
 })
 
 
-router.post('/add', async (req, res) => {
+router.post('/add', async (req, res) => { 
     const data = req.body;
     try {
         let query = `select id, dept_name from employee where id = '${data.id}'`
         const check = await db.dbQuery(query)
-        if (check.length !== 0) throw 'id exists'
+        if (Object.keys(check).length !== 0) throw 'id exists'
 
         if (check[0].dept_name === 'info'){
             query = `insert into info values ('${data.id}', 9)`
@@ -98,7 +98,8 @@ router.put('/change', async (req, res) => {
     try {
         let sqlStr = `select id, dept_name from employee where id = '${query.id}'`
         const check = await db.dbQuery(sqlStr)
-        if (check.length === 0) throw 'not exists'
+        
+        if (Object.keys(check).length === 0) throw 'not exists'
         if (check[0].dept_name === "info" && data.dept_name !== "info") {
             sqlStr = `delete from info where emp_id = '${query.id}'`
             const subcheck = await db.dbQuery(sqlStr)
