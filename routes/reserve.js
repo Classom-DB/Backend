@@ -13,7 +13,7 @@ router.get('/room/get', async (req, res) => {
         if (result === null || result === undefined) throw 'query error'
         res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
     }
 })
@@ -26,7 +26,7 @@ router.post('/room/add', async (req, res) => {
         if (result === null) throw 'query error'
         res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
     }
 })
@@ -34,12 +34,12 @@ router.post('/room/add', async (req, res) => {
 router.put('/room/change', async (req, res) => {
     const query = req.query
     try {
-        let sqlStr = `update reserved set state = 'true' where id = '${query.id}'`
+        let sqlStr = `update reserved set state = 'true' where id = ${query.id}`
         const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'query error'
         res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
     }
 })
@@ -52,7 +52,7 @@ router.delete('/room/delete', async (req, res) => {
         if (result === null) throw 'query error'
         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({"data": error, "code": 404, "timestamp": new Date().getDate() })
     }
 })
@@ -67,7 +67,7 @@ router.get('/restaurant/get', async (req, res) => {
         if (result === null || result === undefined) throw 'query error'
         res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
     }
 })
@@ -80,7 +80,7 @@ router.post('/restaurant/add', async (req, res) => {
         if (result === null) throw 'query error'
         res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
-        console.log(error)
+        res.status(404)
         res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
     }
 })
