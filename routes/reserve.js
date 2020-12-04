@@ -5,20 +5,12 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/room/get', async (req, res) => {
-    const option = req.query
-
+    const time = req.query.curtime;
     try {
         let sqlStr = `select reserved.id, guest_id, first_name, last_name, guest_number, room_num, check_in, check_out, status from reserved join guest on reserved.guest_id = guest.id`
-        if (Object.keys(option).length !== 0) {
-            sqlStr += ` where `
-            var num = 0
-            for (let keys in option) {
-                if(++num !== 1) query += `and `
-                sqlStr += `${keys} = '${option[keys]}' `
-            }
-        }
+        if (time === true) sqlStr += ` where check_in > (select current_timestamp + '-1 days')`
         const result = await db.dbQuery(sqlStr)
-        if (result === null || Object.keys(result).length === 0) throw 'query error'
+        if (result === null || result === undefined) throw 'query error'
         res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
     } catch (error) {
         console.log(error)
