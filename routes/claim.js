@@ -4,10 +4,10 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
-router.get('/get', async (req, res) => {
+router.get('/get', async (req, res) => { 
     const data = req.query
     try {
-        const query = `select id, message, state, guest_id, emp_id, in_time, out_time from claim where state = '${data.state}' and type = '${data.claim}'`
+        const query = `select id, type, message, state, guest_id, emp_id, in_time, out_time from claim where state = '${data.state}'`
         const result = db.dbQuery(query)
         if (result === undefined || result == null) throw 'null data'
         res.json(template.jsonCreate(result))
