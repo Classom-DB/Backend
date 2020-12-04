@@ -31,6 +31,19 @@ router.post('/room/add', async (req, res) => {
     }
 })
 
+router.post('/room/add', async (req, res) => {
+    const query = req.query
+    try {
+        let sqlStr = `update reserved set state = 'true' where id = '${query.id}'`
+        const result = await db.dbQuery(sqlStr)
+        if (result === null) throw 'query error'
+        res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
+    } catch (error) {
+        console.log(error)
+        res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
+    }
+})
+
 router.delete('/room/delete', async (req, res) => {
     const time = req.query.time;
     try {
