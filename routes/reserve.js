@@ -34,8 +34,12 @@ router.post('/room/add', async (req, res) => {
 router.put('/room/change', async (req, res) => {
     const query = req.query
     try {
-        let sqlStr = `update reserved set status = 'true' where id = ${query.id}`
-        console.log(sqlStr)
+        let sqlStr = `select status from reserved where id = ${query.id}`
+        const check = await db.dbQuery(sqlStr)
+        if (Object.keys(check).length === 0) throw 'null data'
+        
+        if (check[0].status === true) sqlStr = `update reserved set status = 'false' where id = ${query.id}`
+        else sqlStr = `update reserved set status = 'true' where id = ${query.id}`
         const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'query error'
         res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })

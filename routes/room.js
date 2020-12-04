@@ -7,8 +7,8 @@ let router = express.Router();
 
 router.get('/get/perroom', async (req, res) => {
     const data = req.query
-    const query = `select guest.first_name, guest.last_name, employee.first_name, employee.last_name, guest.gender, 
-    grade, mileage, year, month, day, guest.phone_number, guest.email, guest.address 
+    const query = `select guest.first_name as guest_first_name, guest.last_name as guest_last_name, employee.first_name as emp_first_name, employee.last_name as emp_last_name, 
+    guest.gender, grade, mileage, year, month, day, guest.phone_number, guest.email, guest.address 
     from guest
     join reserved on guest.id = reserved.guest_id
     join room on reserved.room_num = room.number
