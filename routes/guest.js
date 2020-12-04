@@ -32,6 +32,7 @@ router.post('/add', async (req, res) => {
         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
     } catch (error) {
         console.log(error)
+        res.status(404)
         res.json({"data": error, "code": 404, "timestamp": new Date().getDate()})
     }
 })
