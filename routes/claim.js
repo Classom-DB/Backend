@@ -8,9 +8,7 @@ router.get('/get', async (req, res) => {
     const data = req.query
     try {
         const query = `select claim.id, type, message, claim.state, claim.guest_id, emp_id, in_time, out_time, room_num from claim, reserved where state = '${data.state}' and claim.guest_id = reserved.guest_id`
-        console.log(query)
         const result = await db.dbQuery(query)
-        console.log(result)
         if (result === undefined || result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
