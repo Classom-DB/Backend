@@ -4,16 +4,23 @@ import * as template from '../public/javascripts/template';
 let express = require('express');
 let router = express.Router();
 
+
 router.get('/get', async (req, res) => {
     const data = req.query
-    const query = `select room_num, type, price, floor, emp_id from room `
-    if(Object.keys(data).length !== 1) query += `and type = '${data.type}'`
+    const query = `select guest.first_name, guest.last_name, employee.first_name, employee.last_name, guest.gender, 
+    grade, mileage, year, month, day, guest.phone_number, guest.email, guest.address 
+    from guest
+    join reserved on guest.id = reserved.guest_id
+    join room on reserved.room_num = room.number
+    join employee on employee.id = room.emp_id
+    where reserved.guest_id = guest.id and reserved.room_num = room.number and room_num = ${data.room}`
+    console.log(query)
+
     try {
         const result = await db.dbQuery(query)
-        if (result === undefined || result === null) throw 'null data'
+        if (Object.keys(result) === 0 || result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
-        console.log(err)
         res.json({"code": 404, "timestamp": new Date().getDate()})
     }
 })
