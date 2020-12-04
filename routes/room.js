@@ -5,7 +5,7 @@ let express = require('express');
 let router = express.Router();
 
 
-router.get('/perroom/get', async (req, res) => {
+router.get('/get/perroom', async (req, res) => {
     const data = req.query
     const query = `select guest.first_name, guest.last_name, employee.first_name, employee.last_name, guest.gender, 
     grade, mileage, year, month, day, guest.phone_number, guest.email, guest.address 
@@ -25,7 +25,7 @@ router.get('/perroom/get', async (req, res) => {
     }
 })
 
-router.get('/peremp/get', async (req, res) => {
+router.get('/get/peremp', async (req, res) => {
     const query = `select id, first_name, last_name, number from employee, room where employee.id = room.emp_id`
 
     try {
