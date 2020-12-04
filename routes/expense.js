@@ -37,11 +37,9 @@ router.post('/add', async (req, res) => {
 
         const query = `insert into expense values(default, ${data.amount}, '${data.type}', ${data.year}, ${data.month}, ${data.day}, '${data.dept_name}')`
         const result = await db.dbQuery(query)
-        console.log(result)
-        if(result === undefined || result === null) throw 'query error'
+        if(Object.keys(result).length === 0 || result === null) throw 'query error'
         res.json({"data" : "succuess", "code" : 200, "timestamp" : new Date().getDate()})
     } catch(err) {
-        console.log(err)
         res.json({"code": 404, "timestamp": new Date().getDate(), "error" : err})
     }
 })
@@ -56,7 +54,7 @@ router.put('/change', async (req, res) => {
 
         query = `update expense set type = '${data.type}', year = ${data.year}, month = ${data.month}, day = ${data.day}, amount = ${data.amount} where id = ${id}`
         const result = await db.dbQuery(query)
-        if (result === undefined) throw 'query error'
+        if (result === null) throw 'query error'
     } catch(err) {
         console.log(err)
         res.json({"code": 404, "timestamp": new Date().getDate(), "error" : err})
