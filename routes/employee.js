@@ -93,21 +93,19 @@ router.put('/change', async (req, res) => {
     const query = req.query;
     const data = req.body;
 
-    console.log(data)
-
     try {
         let sqlStr = `select id, dept_name from employee where id = '${query.id}'`
         const check = await db.dbQuery(sqlStr)
-        
+
         if (Object.keys(check).length === 0) throw 'not exists'
         if (check[0].dept_name === "info" && data.dept_name !== "info") {
             sqlStr = `delete from info where emp_id = '${query.id}'`
             const subcheck = await db.dbQuery(sqlStr)
-            if(subcheck === null) throw 'subcheck error'
+            if(subcheck === null) throw 'subcheck1 error'
         }else if (check[0].dept_name !== "info" && data.dept_name === "info") {
-            sqlStr = `insert into info where emp_id = '${query.id}'`
+            sqlStr = `insert into info values ('${query.id}', 10)`
             const subcheck = await db.dbQuery(sqlStr)
-            if(subcheck === null) throw 'subcheck error'
+            if(subcheck === null) throw 'subcheck2 error'
         }
 
         sqlStr = `update employee set 
