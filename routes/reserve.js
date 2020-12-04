@@ -18,7 +18,7 @@ router.get('/room/get', async (req, res) => {
     }
 })
 
-router.post('/room/add', async (req, res) => {
+router.put('/room/change', async (req, res) => {
     const data = req.body
     try {
         let sqlStr = `insert into reserved values(DEFAULT, ${data.guest_number}, ${data.room_num}, '${data.check_in}', '${data.check_out}', '${data.guest_id}', ${data.status})`
