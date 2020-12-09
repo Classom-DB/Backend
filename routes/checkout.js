@@ -5,13 +5,11 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/get', async (req, res) => {
-    const num = req.query.room_num
-    const body = req.body
-
-    const query = `select price * guest_number * ${body.handler}, check_in from room, reserved where room.number = reserved.room_num and room.number = ${num}`
+    const query = req.query
+    const sqlStr = `select price from room where number = ${query.num}`
 
     try {
-        const result = await db.dbQuery(query)
+        const result = await db.dbQuery(sqlStr)
         if (result === undefined || result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
