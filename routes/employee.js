@@ -110,10 +110,10 @@ router.put('/change', async (req, res) => {
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'subcheck1 error'
 
-            sqlStr = `delete from where emp_id = '${query.id}'`
+            sqlStr = `delete from room where emp_id = '${query.id}'`
             const subcheck_1 = await db.dbQuery(sqlStr)
             if(subcheck_1 === null) throw 'subcheck1 error'
-            
+
         }else if (check[0].dept_name !== "info" && data.dept_name === "info") {
             sqlStr = `insert into info values ('${query.id}', 10)`
             const subcheck = await db.dbQuery(sqlStr)
