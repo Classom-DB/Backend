@@ -75,6 +75,21 @@ router.delete('/room/delete', async (req, res) => {
     }
 })
 
+router.delete('/room/delete/one', async (req, res) => {
+    const query = req.query;
+
+    try {
+        let sqlStr = `delete from reserved where id = ${query.id}`
+
+        const result = await db.dbQuery(sqlStr)
+        if (result === null) throw 'query error'
+        res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
+    } catch (error) {
+        res.status(404)
+        res.json({"data": error, "code": 404, "timestamp": new Date().getDate() })
+    }
+})
+
 router.get('/restaurant/get', async (req, res) => {
     const query = req.query
     try {
