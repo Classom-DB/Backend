@@ -6,7 +6,7 @@ let router = express.Router();
 
 router.get('/get', async (req, res) => {
 
-    let query = `select type, sum(amount) as sum from income group by type`
+    let query = `select type, sum(amount) as sum from income group by type order by type`
     try {
         const result = await db.dbQuery(query)
 
