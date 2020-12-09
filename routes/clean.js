@@ -10,12 +10,11 @@ router.get('/get', async (req, res) => {
     const query = `select clean from room where number = ${room}`
     
     try {
-        console.log(query)
         const result = await db.dbQuery(query)
         if (Object.keys(result).length === 0 || result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
-        res.json({"code": 404, "timestamp": new Date().getDate()})
+        res.json({"code": 404, "error" : err, "timestamp": new Date().getDate()})
     }
 })
 
