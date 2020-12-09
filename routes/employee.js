@@ -119,7 +119,7 @@ router.put('/change', async (req, res) => {
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'subcheck1 error'
         } else if (check[0].dept_name !== "info" && data.dept_name === "info") {
-            sqlStr = `insert into info values ('${query.id}', 10)`
+            sqlStr = `insert into info values ('${query.id}', 9)`
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'subcheck2 error'
         }
