@@ -79,6 +79,13 @@ router.delete('/delete', async (req, res) => {
             if (subresult === null) throw 'info error'
         }
 
+        switch (check[0].dept_name) {
+            case 'info' :
+                query = `delete from info where emp_id = '${data.id}'`
+                const subresult = await db.dbQuery(query)
+                if (subresult === null) throw 'info error'
+        }
+
         query = `delete from employee where id = '${data.id}'`
         const result = await db.dbQuery(query)
         if (result === null) throw 'query error'
@@ -102,6 +109,11 @@ router.put('/change', async (req, res) => {
             sqlStr = `delete from info where emp_id = '${query.id}'`
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'subcheck1 error'
+
+            sqlStr = `update room set emp_id = null where emp_id = '${query.id}'`
+            const subcheck_1 = await db.dbQuery(sqlStr)
+            if(subcheck_1 === null) throw 'subcheck1 error'
+
         }else if (check[0].dept_name !== "info" && data.dept_name === "info") {
             sqlStr = `insert into info values ('${query.id}', 10)`
             const subcheck = await db.dbQuery(sqlStr)
