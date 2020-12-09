@@ -87,8 +87,8 @@ router.delete('/delete', async (req, res) => {
             
             case 'planning' :
                 query = `delete from planning where emp_id = '${data.id}'`
-                const subresult = await db.dbQuery(query)
-                if (subresult === null) throw 'planning error'
+                const subresult2 = await db.dbQuery(query)
+                if (subresult2 === null) throw 'planning error'
         }
 
         query = `delete from employee where id = '${data.id}'`
