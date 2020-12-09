@@ -18,7 +18,7 @@ router.get('/get', async (req, res) => {
         res.json(template.jsonCreate(result))
     } catch(err) {
         console.log(err)
-        res.json({"code": 404, "timestamp": new Date().getDate()})
+        res.json({"code": 404, "error" : err, "timestamp": new Date().getDate()})
     }
 })
 

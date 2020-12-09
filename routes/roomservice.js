@@ -9,7 +9,7 @@ router.get('/get', async (req, res) => {
     try {
         const query = `select roomservice.id, room_num menu, state, roomservice.guest_id, room_num, in_time, out_time 
         from roomservice join reserved on roomservice.guest_id = reserved.guest_id
-        where roomservice.emp_id = '${data.emp_id}' and state = '${data.state}' and roomservice.in_time >= reserved.check_in and roomservice.in_time <= reserved.check_out`
+        where roomservice.emp_id = '${data.id}' and state = '${data.state}' and roomservice.in_time >= reserved.check_in and roomservice.in_time <= reserved.check_out`
 
         const result = await db.dbQuery(query)
         if (Object.keys(result).length === 0 || result == null) throw 'null data'
