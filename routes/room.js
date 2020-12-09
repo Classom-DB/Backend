@@ -7,7 +7,7 @@ let router = express.Router();
 
 router.get('/get/emptyroom', async (req, res) => {
     const query = req.query
-    const sqlStr = `select number, price from (select number, price from room where type = '${query.type}' except select number, price from room, reserved where type = '${query.type}' and room.number = reserved.room_num) as npnp`
+    const sqlStr = `SELECT number, price FROM room WHERE type='${query.type}'\nEXCEPT\nSELECT NUMBER, PRICE FROM ROOM INNER JOIN RESERVED ON ROOM.NUMBER = RSERVED.ROOM_NUM WHERE ROOM.TYPE='${query.type}'`
     console.log(sqlStr)
     try {
         const result = await db.dbQuery(query)
