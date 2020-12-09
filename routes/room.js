@@ -7,12 +7,18 @@ let router = express.Router();
 
 router.get('/get/emptyroom', async (req, res) => {
     const query = req.query
-    const sqlStr = `SELECT number, price FROM room WHERE type='${query.type}'\nEXCEPT\nSELECT NUMBER, PRICE FROM ROOM INNER JOIN RESERVED ON ROOM.NUMBER = RSERVED.ROOM_NUM WHERE ROOM.TYPE='${query.type}'`
+    const sqlStr = `select number, price froom room where type='${query.type}'`
+    const sqlStr2 = `select number, price from room inner join reserved on room.number = reserved.room_num where room.type='${query.type}'`
     console.log(sqlStr)
     try {
         const result = await db.dbQuery(query)
-        console.log(result)
-        if (Object.keys(result) === 0) throw 'null data'
+        const except = await db.dbQuery(query)
+        if (Object.keys(result) === 0 || Object.keys(except) === 0) throw 'null data'
+        for (let i = 0; i < result.length; i++) {
+            for (let j = 0; j < except.length; j++) {
+                if (except[j].number === result[i].number) result.splice(i, 1)
+            }
+        }
         res.json(template.jsonCreate(result[0]))
     } catch(err) {
         res.json({"code": 404, "timestamp": new Date().getDate()})
