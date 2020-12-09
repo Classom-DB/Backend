@@ -9,7 +9,7 @@ router.get('/get/emptyroom', async (req, res) => {
     const query = req.query
     const sqlStr = `select number, price from room where type = '${query.type}' except select number, price from room inner join reserved as rv on room.number = rv.room_num where room.type = '${query.type}'`
     try {
-        const result = await db.dbQuery(query)
+        const result = await db.dbQuery(sqlStr)
         if (Object.keys(result) === 0) throw 'null data'
         res.json(template.jsonCreate(result[0]))
     } catch(err) {
