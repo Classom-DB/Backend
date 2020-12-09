@@ -21,7 +21,7 @@ router.get('/room/get', async (req, res) => {
 router.get('/room/guest/get', async (req, res) => {
     const guest_id = req.query.id;
     try {
-        let sqlStr = `select * from reserved where guest_id = '${guest_id}'`
+        let sqlStr = `select type, check_in, check_out, guest_number from reserved inner join room on reserved.room_num = room.number where reserved.guest_id = '${guest_id}'`
         const result = await db.dbQuery(sqlStr)
         if (result === null || Object.keys(result).length === 0) throw 'query error'
         res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
