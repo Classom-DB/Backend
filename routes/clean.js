@@ -7,9 +7,10 @@ let router = express.Router();
 router.get('/get', async (req, res) => {
     const room = req.query.room
 
-    const query = `select clean from room where room_num = '${room}'`
+    const query = `select clean from room where number = ${room}`
     
     try {
+        console.log(query)
         const result = await db.dbQuery(query)
         if (Object.keys(result).length === 0 || result === null) throw 'null data'
         res.json(template.jsonCreate(result))
@@ -23,11 +24,11 @@ router.put('/change', async (req, res) => {
     const clean = req.body.clean
 
     try {
-        let query = `select room_num from room where room_num = '${room_num}'`
+        let query = `select room_num from room where number = '${room_num}'`
         const check = await db.dbQuery(query)
         if (Object.keys(check).length === 0 || check === null) throw 'null data'
 
-        query = `update room set clean = ${clean} where room_num = '${room_num}'`
+        query = `update room set clean = ${clean} where number = '${room_num}'`
         const result = await db.dbQuery(query)
         if (Object.keys(result) === 0 || result === null) throw 'query error'
     } catch(err) {
