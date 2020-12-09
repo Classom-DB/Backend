@@ -68,7 +68,7 @@ router.put('/room/change/bydate', async (req, res) => {
         const check = await db.dbQuery(sqlStr)
         if (Object.keys(check).length === 0) throw 'null data'
         
-        sqlStr = `update reserved check_out = '${body.time}' where id = ${body.id}`
+        sqlStr = `update reserved set check_out = '${body.time}' where id = ${body.id}`
         const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'query error'
         res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
