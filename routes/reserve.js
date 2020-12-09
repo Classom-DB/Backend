@@ -64,7 +64,7 @@ router.put('/room/change', async (req, res) => {
 router.delete('/room/delete', async (req, res) => {
     const time = req.query.time;
     try {
-        let sqlStr = `delete from reserved where check_out < '${time}' + '-1 days'`
+        let sqlStr = `delete from reserved where check_out < '${time}' + '-1 days' and status = 'false'`
         const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'query error'
         res.json({"data": "success", "code": 200, "timestamp": new Date().getDate()})
