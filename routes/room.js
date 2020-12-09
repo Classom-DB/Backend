@@ -45,6 +45,7 @@ router.get('/get/peremp', async (req, res) => {
 
         if (Object.keys(result) === 0) throw 'null data'
         if (result === null) throw 'query error'
+        res.json(template.jsonCreate(result))
     } catch(err) {
         res.json({"code": 404, "timestamp": new Date().getDate()})
     }
