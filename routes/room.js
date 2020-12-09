@@ -5,6 +5,18 @@ let express = require('express');
 let router = express.Router();
 
 
+router.get('/get/emptyroom', async (req, res) => {
+    const query = req.query
+    const sqlStr = `select number, price from room where type = '${query.type}' except select number, price froom room inner join reserved on room.number = reserved.room_num where room.type = '${query.type}'`
+    try {
+        const result = await db.dbQuery(query)
+        if (Object.keys(result) === 0) throw 'null data'
+        res.json(template.jsonCreate(result[0]))
+    } catch(err) {
+        res.json({"code": 404, "timestamp": new Date().getDate()})
+    }
+})
+
 router.get('/get/perroom', async (req, res) => {
     const data = req.query
     const query = `select guest.first_name as guest_first_name, guest.last_name as guest_last_name, employee.first_name as emp_first_name, employee.last_name as emp_last_name, 
