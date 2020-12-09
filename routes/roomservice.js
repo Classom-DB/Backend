@@ -7,7 +7,7 @@ let router = express.Router();
 router.get('/get', async (req, res) => {
     const data = req.query
     try {
-        const query = `select roomservice.id, room_num menu, state, roomservice.guest_id, room_num, in_time, out_time 
+        const query = `select roomservice.id, room_num, menu, state, roomservice.guest_id, room_num, in_time, out_time 
         from roomservice join reserved on roomservice.guest_id = reserved.guest_id
         where roomservice.emp_id = '${data.id}' and state = '${data.state}' and roomservice.in_time >= reserved.check_in and roomservice.in_time <= reserved.check_out`
 
