@@ -8,7 +8,8 @@ router.get('/get', async (req, res) => {
     const id = req.query.id
 
     let query = `select id, first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name from employee`
-
+    if(id !== undefined) query += ` where id = '${id}'`
+    console.log(query)
     try{
         const result = await db.dbQuery(query)
         if(result === null) throw 'query error'
