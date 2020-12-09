@@ -8,8 +8,10 @@ let router = express.Router();
 router.get('/get/emptyroom', async (req, res) => {
     const query = req.query
     const sqlStr = `select number, price from room where type = '${query.type}' except select number, price from room inner join reserved on room.number = reserved.room_num where room.type = '${query.type}'`
+    console.log(sqlStr)
     try {
         const result = await db.dbQuery(query)
+        console.log(result)
         if (Object.keys(result) === 0) throw 'null data'
         res.json(template.jsonCreate(result[0]))
     } catch(err) {
