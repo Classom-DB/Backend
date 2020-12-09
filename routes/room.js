@@ -12,6 +12,7 @@ router.get('/get/emptyroom', async (req, res) => {
     console.log(sqlStr)
     try {
         const result = await db.dbQuery(query)
+        console.log("hi")
         const except = await db.dbQuery(query)
         if (Object.keys(result) === 0 || Object.keys(except) === 0) throw 'null data'
         for (let i = 0; i < result.length; i++) {
