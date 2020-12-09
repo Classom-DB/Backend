@@ -12,7 +12,7 @@ router.get('/get', async (req, res) => {
         where roomservice.emp_id = '${data.id}' and state = '${data.state}' and roomservice.in_time >= reserved.check_in and roomservice.in_time <= reserved.check_out`
 
         const result = await db.dbQuery(query)
-        if (Object.keys(result).length === 0 || result == null) throw 'null data'
+        if (Object.keys(result).length === 0 || result === null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
         res.json({"code": 404, "error": err, "timestamp": new Date().getDate()})

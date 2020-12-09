@@ -71,19 +71,24 @@ router.delete('/delete', async (req, res) => {
     try {
         let query = `select id, dept_name from employee where id = '${data.id}'`
         const check = await db.dbQuery(query)
-        if (check.length === 0) throw 'id not exists'
-
-        if (check[0].dept_name === 'info') {
-            query = `delete from info where emp_id = '${data.id}'`
-            const subresult = await db.dbQuery(query)
-            if (subresult === null) throw 'info error'
-        }
+        if (Object.keys(check).length === 0) throw 'id not exists'
 
         switch (check[0].dept_name) {
             case 'info' :
+                query = `update room set emp_id = null where emp_id = '${data.id}'`
+                let subresult = await db.dbQuery(query)
+                if(subresult === null) throw 'info_room error'
+
                 query = `delete from info where emp_id = '${data.id}'`
-                const subresult = await db.dbQuery(query)
+                subresult = await db.dbQuery(query)
                 if (subresult === null) throw 'info error'
+
+                break;
+            
+            case 'planning' :
+                query = `delete from planning where emp_id = '${data.id}'`
+                const subresult = await db.dbQuery(query)
+                if (subresult === null) throw 'planning error'
         }
 
         query = `delete from employee where id = '${data.id}'`
@@ -109,11 +114,11 @@ router.put('/change', async (req, res) => {
             sqlStr = `update room set emp_id = null where emp_id = '${query.id}'`
             const subcheck_1 = await db.dbQuery(sqlStr)
             if(subcheck_1 === null) throw 'subcheck1_1 error'
-            
+
             sqlStr = `delete from info where emp_id = '${query.id}'`
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'subcheck1 error'
-        }else if (check[0].dept_name !== "info" && data.dept_name === "info") {
+        } else if (check[0].dept_name !== "info" && data.dept_name === "info") {
             sqlStr = `insert into info values ('${query.id}', 10)`
             const subcheck = await db.dbQuery(sqlStr)
             if(subcheck === null) throw 'subcheck2 error'
