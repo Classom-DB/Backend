@@ -7,13 +7,15 @@ let router = express.Router();
 router.get('/get', async (req, res) => {
     const data = req.query
     try {
-        const query = `select id, menu, state, guest_id, emp_id, in_time, out_time from roomservice where state = '${data.state}'`
-        const result = db.dbQuery(query)
-        if (result === undefined || result == null) throw 'null data'
+        const query = `select roomservice.id, room_num menu, state, roomservice.guest_id, room_num, in_time, out_time 
+        from roomservice join reserved on roomservice.guest_id = reserved.guest_id
+        where roomservice.emp_id = '${data.emp_id}' and state = '${data.state}' and roomservice.in_time >= reserved.check_in and roomservice.in_time <= reserved.check_out`
+
+        const result = await db.dbQuery(query)
+        if (Object.keys(result).length === 0 || result == null) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err) {
-        console.log(err)
-        res.json({"code": 404, "timestamp": new Date().getDate()})
+        res.json({"code": 404, "error": err, "timestamp": new Date().getDate()})
     }
 })
 
