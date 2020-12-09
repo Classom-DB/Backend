@@ -7,7 +7,7 @@ let router = express.Router();
 router.get('/get', async (req, res) => {
     const id = req.query.id
 
-    let query = `select id, first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name from employee where id = '${id}'`
+    let query = `select id, first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name from employee`
 
     try{
         const result = await db.dbQuery(query)
