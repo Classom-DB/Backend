@@ -5,10 +5,10 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/get', async (req, res) => {
-    const id = req.query.guest_id
-    const handler = req.body.price_handler
+    const num = req.query.room_num
+    const body = req.body
 
-    const query = `select price * guest_number * ${handler}, check_in from room, reserved where room.number = reserved.room_num and guest.id = '${id}'`
+    const query = `select price * guest_number * ${body.handler}, check_in from room, reserved where room.number = reserved.room_num and room.number = ${num}`
 
     try {
         const result = await db.dbQuery(query)
