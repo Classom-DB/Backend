@@ -6,39 +6,17 @@ let router = express.Router();
 
 router.get('/get', async (req, res) => {
     const id = req.query.id
-    const dept_name = req.query.dept_name
-    let query = `select id, first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name`
 
-    const isId = (id == undefined) ? false : true;
-    const isDN = (dept_name == undefined) ? false : true;
+    let query = `select id, first_name, last_name, phone_number, address, email, gender, salary, position, birth, join_date, dept_name from employee where id = '${id}'`
 
-    const infoQuery = `, max_guest from employee, info where info.emp_id = employee.id`
-    const deptQuery = `, facility_name from employee, management where management.emp_id = employee.id`
-    
-    try {
-        if(isDN === true){
-            if(dept_name == "info") query += infoQuery
-            else if(dept_name == "facility") query += deptQuery
-            else query += `from employee where dept_name = '${dept_name}'`
-
-            if(isId === true) query += ` and id = '${id}'`
-        } else if(isId === true) {
-            const tmp_query = `select dept_name from employee where id = '${id}'`
-            const result = await db.dbQuery(tmp_query)
-
-            if(result[0]['dept_name'] == "info") query += infoQuery + ` and employee.id = '${id}'`
-            else if(result[0]['dept_name'] == "facility") query += deptQuery +` and employee.id = '${id}'`
-            else query += ` from employee where id = '${id}'`
-            
-        }
-        else query += ` from employee`
-
-    
+    try{
         const result = await db.dbQuery(query)
+        if(result === null) throw 'query error'
+        if (Object.keys(result) === 0) throw 'null data'
         res.json(template.jsonCreate(result))
     } catch(err){
         res.status(404)
-        res.json({"code": 404, "timestamp": new Date().getDate()})
+        res.json({"code": 404, "error" : err, "timestamp": new Date().getDate()})
     }
 })
 
