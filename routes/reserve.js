@@ -18,6 +18,18 @@ router.get('/room/get', async (req, res) => {
     }
 })
 
+router.get('/room/guest/get', async (req, res) => {
+    const guest_id = req.query.id;
+    try {
+        let sqlStr = `select reserved.id, guest_id, first_name, last_name, guest_number, room_num, check_in, check_out from reserved where guest_id = '${guest_id}'`
+        const result = await db.dbQuery(sqlStr)
+        if (result === null || Object.keys(result).length === 0) throw 'query error'
+        res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
+    } catch (error) {
+        res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
+    }
+})
+
 router.post('/room/add', async (req, res) => {
     const data = req.body
     try {
