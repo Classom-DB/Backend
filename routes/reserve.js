@@ -91,7 +91,7 @@ router.get('/restaurant/get', async (req, res) => {
 router.post('/restaurant/add', async (req, res) => {
     const data = req.body
     try {
-        let sqlStr = `insert into restaurantreserved values(DEFAULT, '${data.type}', ${data.customer_num}, ${data.year}, ${data.month}, ${data.day}, ${data.time},'${data.guest_id}')`
+        let sqlStr = `insert into restaurantreserved values(DEFAULT, '${data.type}', ${data.customer_num}, ${data.year}, ${data.month}, ${data.day}, '${data.time}','${data.guest_id}')`
         const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'query error'
         res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
