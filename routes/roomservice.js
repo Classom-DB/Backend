@@ -29,10 +29,9 @@ router.put('/change', async (req, res) => {
 
         const query = `update roomservice set state = 'true', out_time = '${data.out_time}', emp_id = '${data.emp_id}' where id = '${id}'`
         const result = db.dbQuery(query)
-        if(result === null || result == undefined) throw 'query error'
+        if(result === null || Object.keys(result).length === 0) throw 'query error'
 
     } catch(err) {
-        console.log(err)
         res.json({"code": 404, "timestamp": new Date().getDate()})
     }
 })
