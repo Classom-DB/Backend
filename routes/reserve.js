@@ -21,7 +21,7 @@ router.get('/room/get', async (req, res) => {
 router.get('/room/guest/get', async (req, res) => {
     const guest_id = req.query.id;
     try {
-        let sqlStr = `select id, type, check_in, check_out, guest_number from reserved inner join room on reserved.room_num = room.number where reserved.guest_id = '${guest_id}'`
+        let sqlStr = `select id, type, check_in, check_out, guest_number from reserved inner join room on reserved.room_num = room.number where reserved.guest_id = '${guest_id}' order by check_in asc`
         const result = await db.dbQuery(sqlStr)
         if (result === null || Object.keys(result).length === 0) throw 'query error'
         res.json({ "data": result, "code": 200, "timestamp": new Date().getDate() })
@@ -77,7 +77,7 @@ router.delete('/room/delete', async (req, res) => {
 router.get('/restaurant/get', async (req, res) => {
     const query = req.query
     try {
-        let sqlStr = `select rr.id, type, customer_num, rr.year, rr.month, rr.day, time, first_name, last_name, guest_id from restaurantreserved as rr inner join guest on rr.guest_id = guest.id where rr.guest_id = '${query.id}'`
+        let sqlStr = `select rr.id, type, customer_num, rr.year, rr.month, rr.day, time, first_name, last_name, guest_id from restaurantreserved as rr inner join guest on rr.guest_id = guest.id where rr.guest_id = '${query.id}' order by rr.type`
         console.log(sqlStr)
         const result = await db.dbQuery(sqlStr)
         if (result === null) throw 'query error'
