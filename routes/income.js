@@ -5,39 +5,29 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/get', async (req, res) => {
-    const data = req.query
-    let query = `select id, amount from income`
+
+    let query = `select type, sum(amount) from income group by type;`
     try {
-        if (Object.keys(data).length !== 0) {
-            query += ` where `
-            var num = 0
-            for (let keys in data) {
-                if(++num !== 1) query += `and `
-                if(keys === 'year' || keys === 'day' || keys === 'month')query += `${keys} = ${data[keys]} `
-                else query += `${keys} = '${data[keys]}' `
-            }
-        }
-    
         const result = await db.dbQuery(query)
+
+        if(Object.keys(result).length === 0) throw 'null data'
+        if(result === null) throw 'query error'
         res.json(template.jsonCreate(result))
 
     } catch(err) {
-        console.log(err)
         res.json({"code": 404, "timestamp": new Date().getDate()})
     }
 })
 
 router.post('/add', async (req, res) => {
     const data = req.body
-    console.log(data);
     try {
         const query = `insert into income values(default, ${data.amount}, '${data.type}', ${data.year}, ${data.month}, ${data.day}, '${data.guest_id}')`
         const result = await db.dbQuery(query)
-        if(result === undefined || result === null) throw 'query error'
+        if(result === null) throw 'query error'
         res.json({"data" : "succuess", "code" : 200, "timestamp" : new Date().getDate()})
     } catch(err) {
-        console.log(err)
-        res.json({"code": 404, "timestamp": new Date().getDate(), "error" : err})
+        res.json({"code": 404, "error" : err, "timestamp": new Date().getDate()})
     }
 })
 
