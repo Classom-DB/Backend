@@ -43,7 +43,7 @@ router.post('/add', async (req, res) => {
     const data = req.body
     
     try {
-        const query = `insert into claim (id, type, in_time, guest_id, message, state) values(default, '${data.type}', '${data.in_time}', '${data.guest_id}', '${data.message}', FALSE)`
+        const query = `insert into claim (id, type, in_time, guest_id, message, state, emp_id) values(default, '${data.type}', '${data.in_time}', '${data.guest_id}', '${data.message}', FALSE, 'r18')`
         const result = await db.dbQuery(query)
         if(Object.keys(result).length === 0 || result === null) throw 'query error'
     } catch(err) {

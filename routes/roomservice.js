@@ -41,7 +41,7 @@ router.post('/add', async (req, res) => {
     const data = req.body
     
     try {
-        const query = `insert into roomservice (id, menu, in_time, guest_id, state) values(default, '${data.menu}', '${data.in_time}', '${data.guest_id}', FALSE)`
+        const query = `insert into roomservice (id, menu, in_time, guest_id, state, emp_id) values(default, '${data.menu}', '${data.in_time}', '${data.guest_id}', FALSE, 'r18')`
         const result = await db.dbQuery(query)
         console.log(result)
         if(result === undefined || result === null) throw 'query error'
