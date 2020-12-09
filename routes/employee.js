@@ -112,7 +112,7 @@ router.put('/change', async (req, res) => {
 
             sqlStr = `update room set emp_id = null where emp_id = '${query.id}'`
             const subcheck_1 = await db.dbQuery(sqlStr)
-            if(subcheck_1 === null) throw 'subcheck1 error'
+            if(subcheck_1 === null) throw 'subcheck1_1 error'
 
         }else if (check[0].dept_name !== "info" && data.dept_name === "info") {
             sqlStr = `insert into info values ('${query.id}', 10)`
