@@ -61,6 +61,23 @@ router.put('/room/change', async (req, res) => {
     }
 })
 
+router.put('/room/change/bydate', async (req, res) => {
+    const query = req.query
+    try {
+        let sqlStr = `select status from reserved where id = ${query.id}`
+        const check = await db.dbQuery(sqlStr)
+        if (Object.keys(check).length === 0) throw 'null data'
+        
+        sqlStr = `update reserved check_out = '${query.time}' where id = ${query.id}`
+        const result = await db.dbQuery(sqlStr)
+        if (result === null) throw 'query error'
+        res.json({ "data": "success", "code": 200, "timestamp": new Date().getDate() })
+    } catch (error) {
+        res.status(404)
+        res.json({ "data": error, "code": 404, "timestamp": new Date().getDate() })
+    }
+})
+
 router.delete('/room/delete', async (req, res) => {
     const time = req.query.time;
     try {
